@@ -193,6 +193,12 @@ impl Machine {
 }
 
 static mut M: Option<Machine> = None;
+/// Drop the current guest and its native JIT mappings. The host serializes access.
+#[no_mangle]
+pub extern "C" fn fm1_shutdown() {
+    unsafe { M = None };
+}
+
 static mut JIT: bool = false;
 static mut JIT_PER_RENDER: u32 = 0;
 static mut AHEAD: u32 = 0;
